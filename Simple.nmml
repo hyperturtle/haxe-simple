@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project>
+
+  <app title="Simple" file="Simple" main="Simple" package="org.hyperturtle.Simple" version="1.0.0" company="NME" />
+
+  <window background="#000000" />
+  
+  <set name="fullscreen" if="target_webos" />
+  <set name="fullscreen" if="target_ios" />
+  <set name="fullscreen" if="target_android" />
+  
+  <window width="320" height="480" fps="30" orientation="portrait" resizable="false" />
+  <window fullscreen="true" if="fullscreen" />
+ 
+  <set name="BUILD_DIR" value="Export" />
+  <set name="PRERENDERED_ICON" value="true" />
+  <classpath name="Source" />
+
+  <haxelib name="nme" />
+  <haxelib name="actuate" />
+
+  <assets path="Assets" rename="assets" include="*" exclude="*.psd,*.svg" />
+
+  <ndll name="std" />
+  <ndll name="regexp" />
+  <ndll name="zlib" />
+  <ndll name="nme" haxelib="nme" />
+
+  <icon name="Assets/nme.svg" />
+
+</project>
