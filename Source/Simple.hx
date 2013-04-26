@@ -1,32 +1,40 @@
 package;
 import com.eclecticdesignstudio.motion.Actuate;
 import com.eclecticdesignstudio.motion.easing.Cubic;
-import com.eclecticdesignstudio.motion.easing.Quad;
 import com.eclecticdesignstudio.motion.easing.Elastic;
+import com.eclecticdesignstudio.motion.easing.Quad;
+import nme.Assets;
 import nme.display.Bitmap;
 import nme.display.Sprite;
-import nme.display.Tilesheet;
 import nme.display.StageAlign;
 import nme.display.StageScaleMode;
-import nme.geom.Rectangle;
-import nme.geom.Point;
+import nme.display.Tilesheet;
 import nme.events.Event;
+import nme.events.EventDispatcher;
 import nme.events.MouseEvent;
 import nme.events.TouchEvent;
-import nme.Assets;
+import nme.geom.Point;
+import nme.geom.Rectangle;
 import nme.Lib;
+import nme.media.Sound;
 import nme.text.TextField;
 import nme.text.TextFieldType;
-import nme.events.EventDispatcher;
+
+typedef Tile = {x: Float, y: Float, s:Float, w:Float, a:Float, r:Float, g:Float, b:Float, rot:Float}
+
 
 class Simple extends Sprite {
     private var tsheet:Tilesheet;
-    public function new () {
+    private var sound:Sound;
+    private var lame:Tile;
+    private function new () {
         super();
         tsheet = new Tilesheet (Assets.getBitmapData ("assets/Untitled.png"));
 
-        var sound = Assets.getSound ("assets/Explosion.wav");
-        sound.play ();
+        sound = Assets.getSound ("assets/Explosion.wav");
+        sound.play();
+
+        lame = { x:0, y:0, s:0, w:0, a:0, r:0, g:0, b:0, rot:0 };
 
         for (y in 0...2) {
             for (x in 0...32) {
@@ -38,6 +46,17 @@ class Simple extends Sprite {
     }
 
     private function this_onAddedToStage (event:Event):Void {
+        stage.align = StageAlign.TOP_LEFT;
+        stage.scaleMode = StageScaleMode.NO_SCALE;
+        
+
+        stage.addEventListener(MouseEvent.CLICK, function (event:MouseEvent) {
+            var temp = {x: event.localX, y: event.localY};
+            Actuate.stop(lame);
+            Actuate.tween(lame, 1, temp);
+            sound.play();
+        });
+
         addEventListener(Event.ENTER_FRAME, this_onEnterFrame);
     }
     private function this_onEnterFrame (?event:Event):Void {
@@ -58,6 +77,15 @@ class Simple extends Sprite {
                 currentArrayIndex += 7;
             }
         }
+
+        tArray[currentArrayIndex    ] = lame.x;
+        tArray[currentArrayIndex + 1] = lame.y;
+        tArray[currentArrayIndex + 2] = 16;
+        tArray[currentArrayIndex + 3] = 2;
+        tArray[currentArrayIndex + 4] = 1;
+        tArray[currentArrayIndex + 5] = 1;
+        tArray[currentArrayIndex + 6] = 1;
+        currentArrayIndex += 7;
 
         tsheet.drawTiles(graphics, tArray, false, Tilesheet.TILE_SCALE | Tilesheet.TILE_RGB);   
     }
