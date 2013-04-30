@@ -9,7 +9,7 @@
   <set name="fullscreen" if="target_ios" />
   <set name="fullscreen" if="target_android" />
   
-  <window width="320" height="480" fps="30" orientation="portrait" resizable="false" />
+  <window width="480" height="320" fps="30" orientation="landscape" resizable="false" />
   <window fullscreen="true" if="fullscreen" />
  
   <set name="BUILD_DIR" value="Export" />
@@ -19,7 +19,7 @@
   <haxelib name="nme" />
   <haxelib name="actuate" />
 
-  <assets path="Assets" rename="assets" include="*" exclude="*.psd,*.svg" />
+  <assets path="Assets" rename="assets" include="*" exclude="*.psd,*.svg,*.xm" />
 
   <ndll name="std" />
   <ndll name="regexp" />
