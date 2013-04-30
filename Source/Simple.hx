@@ -1,26 +1,26 @@
 package;
 import com.eclecticdesignstudio.motion.Actuate;
 import com.eclecticdesignstudio.motion.easing.Cubic;
-import com.eclecticdesignstudio.motion.easing.Quad;
 import com.eclecticdesignstudio.motion.easing.Elastic;
+import com.eclecticdesignstudio.motion.easing.Quad;
+import haxe.Timer;
+import nme.Assets;
+import nme.Lib;
 import nme.display.Bitmap;
 import nme.display.Sprite;
-import nme.display.Tilesheet;
 import nme.display.StageAlign;
 import nme.display.StageScaleMode;
-import nme.geom.Rectangle;
-import nme.geom.Point;
+import nme.display.Tilesheet;
 import nme.events.Event;
+import nme.events.EventDispatcher;
 import nme.events.KeyboardEvent;
 import nme.events.MouseEvent;
 import nme.events.TouchEvent;
-import nme.Assets;
-import nme.Lib;
+import nme.geom.Point;
+import nme.geom.Rectangle;
 import nme.media.Sound;
 import nme.text.TextField;
 import nme.text.TextFieldType;
-import nme.events.EventDispatcher;
-import haxe.Timer;
 
 typedef Tile = {x: Float, y: Float, s:Float, w:Float, z:Int, a:Float, r:Float, g:Float, b:Float, rot:Float}
 typedef Vector = {x: Float, y:Float}
@@ -68,6 +68,9 @@ class Entities {
     }
 }
 
+typedef Tile = {x: Float, y: Float, s:Float, w:Float, a:Float, r:Float, g:Float, b:Float, rot:Float}
+
+
 class Simple extends Sprite {
     
     private var tsheet:Tilesheet;
@@ -78,7 +81,7 @@ class Simple extends Sprite {
     private var jumping:Bool;
     private var jumpCount:Int;
 
-    public function new () {
+    private function new () {
         super();
         tsheet = new Tilesheet (Assets.getBitmapData ("assets/Untitled.png"));
         _ = new Entities();
@@ -86,7 +89,7 @@ class Simple extends Sprite {
         jumpCount = 0;
 
         sound = Assets.getSound ("assets/Explosion.wav");
-        sound.play ();
+        sound.play();
 
         for (y in 0...3) {
             for (x in 0...32) {
@@ -183,7 +186,16 @@ class Simple extends Sprite {
             currentArrayIndex += 9;
         }
 
-        tsheet.drawTiles(graphics, tArray, false, Tilesheet.TILE_SCALE | Tilesheet.TILE_ALPHA | Tilesheet.TILE_RGB | Tilesheet.TILE_ROTATION);
+        tArray[currentArrayIndex    ] = lame.x;
+        tArray[currentArrayIndex + 1] = lame.y;
+        tArray[currentArrayIndex + 2] = 16;
+        tArray[currentArrayIndex + 3] = 2;
+        tArray[currentArrayIndex + 4] = 1;
+        tArray[currentArrayIndex + 5] = 1;
+        tArray[currentArrayIndex + 6] = 1;
+        currentArrayIndex += 7;
+
+        tsheet.drawTiles(graphics, tArray, false, Tilesheet.TILE_SCALE | Tilesheet.TILE_RGB);   
     }
     public static function main () {
         Lib.current.addChild (new Simple());
